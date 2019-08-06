@@ -7,7 +7,8 @@ composer.action(/notarobot:(\S+)/i, async ctx => {
   if (/[0-9,]+/i.test(ctx.match[1])) {
     const userIds = ctx.match[1].match(/[0-9]+/ig).map(Number.parseInt)
     if (!userIds.includes(ctx.from.id)) {
-      return ctx.answerCbQuery('This message does not apply to you.')
+      return ctx.answerCbQuery('Este mensaje no es para ti.
+This message does not apply to you.')
     }
     const user = await collection('robots').findOne({
       chatId: ctx.chat.id,
@@ -30,7 +31,8 @@ composer.action(/notarobot:(\S+)/i, async ctx => {
         ctx.editMessageReplyMarkup({
           inline_keyboard: [
             [{
-              text: 'I\'m not a robot.',
+              text: 'No soy un robot.
+I\'m not a robot.',
               callback_data: `notarobot:${userIds.filter(id => id !== ctx.from.id).join(',')}`
             }]
           ]
